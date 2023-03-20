@@ -19,17 +19,15 @@ class Solution {
 
 int	main(void)
 {
-	Solution test;
-	std::vector<int> pouet;
-	pouet.push_back(3);
-	pouet.push_back(2);
-	pouet.push_back(4);
-	for (std::vector<int>::iterator it = pouet.begin(); it != pouet.end(); ++it)
-		std::cout << *it << std::endl;
-	std::cout << "TEST" << std::endl;
-	std::vector<int> soluce = test.twoSum(pouet, 6);
+	Solution object;
+	std::vector<int> Vectest;
+	Vectest.push_back(3);
+	Vectest.push_back(2);
+	Vectest.push_back(4);
+
+	std::vector<int> soluce = object.twoSum(Vectest, 6);
 	for (std::vector<int>::iterator it = soluce.begin(); it != soluce.end(); ++it)
 		std::cout << *it << std::endl;
-	std::cout << "Sum = " << pouet[soluce[0]] + pouet[soluce[1]] << std::endl;
+	std::cout << "Sum = " << Vectest[soluce[0]] + Vectest[soluce[1]] << std::endl;
 	return (0);
 }
