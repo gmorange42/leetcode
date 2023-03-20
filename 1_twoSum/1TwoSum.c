@@ -4,6 +4,8 @@
 int*	twoSum(int* nums, int numsSize, int target, int* returnSize)
 {
 	int*	ret = malloc(sizeof(int) * 2);
+	if (ret == NULL)
+		return (NULL);
 	*returnSize = 2;
 
 	for (int i = 0; i < numsSize; ++i)
@@ -23,7 +25,14 @@ int*	twoSum(int* nums, int numsSize, int target, int* returnSize)
 
 int	main(void)
 {
-	puts("TEST");
-	int* nums = {2, 7, 11, 15};
+	int	nums[] = {2, 7, 11, 15};
+	int*	ret = NULL;
+	int	returnSize = 0;
+
+	ret = twoSum(nums, 4, 9, &returnSize);
+	printf("ret = [%d, %d] returnSize = %d\n", ret[0], ret[1], returnSize);
+
+	free(ret);
+	ret = NULL;
 	return (0);
 }
