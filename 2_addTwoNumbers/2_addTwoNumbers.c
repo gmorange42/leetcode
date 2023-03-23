@@ -6,70 +6,56 @@ struct	ListNode {
 	struct ListNode		*next;
 };
 
-//add() is not called in this function, because add() goes through the whole chained list to add an element.
+void	add(struct ListNode** list, int val);
+
 struct ListNode*	addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 {
 	int		value = 0;
 	int		rest = 0;
-	struct ListNode		res;
-	res.val = 0;
-	res.next = NULL;
-	struct ListNode*	temp = &res;
+	struct ListNode*	res = NULL;
+	struct ListNode*	temp1 = l1;
+	struct ListNode*	temp2 = l2;
 
-	while (l1 && l2)
+	while (temp1 && temp2)
 	{
-		value = l1->val + l2->val + rest;
+		value = temp1->val + temp2->val + rest;
 		rest = value / 10;
 		value %= 10;
 
-		temp->next = malloc(sizeof(struct ListNode));
-		temp->next->next = NULL;
-		temp->next->val = value;
-		temp = temp->next;
+		add(&res, value);
 
-		l1 = l1->next;
-		l2 = l2->next;
+		temp1 = temp1->next;
+		temp2 = temp2->next;
 	}
-	while (l1)
+	while (temp1)
 	{
-		value = l1->val + rest;
+		value = temp1->val + rest;
 		rest = value / 10;
 		value %= 10;
 
-		temp->next = malloc(sizeof(struct ListNode));
-		temp->next->next = NULL;
-		temp->next->val = value;
-		temp = temp->next;
+		add(&res, value);
 
-		l1 = l1->next;
+		temp1 = temp1->next;
 	}
-	while (l2)
+	while (temp2)
 	{
-		value = l2->val + rest;
+		value = temp2->val + rest;
 		rest = value / 10;
 		value %= 10;
 
-		temp->next = malloc(sizeof(struct ListNode));
-		temp->next->next = NULL;
-		temp->next->val = value;
-		temp = temp->next;
+		add(&res, value);
 
-		l2 = l2->next;
+		temp2 = temp2->next;
 	}
 	if (rest != 0)
-	{
-		temp->next = malloc(sizeof(struct ListNode));
-		temp->next->next = NULL;
-		temp->next->val = rest;
-		temp = temp->next;
-	}
-	return (res.next);
+		add(&res, rest);
+	return (res);
 }
 
 void	add(struct ListNode** list, int val)
 {
 	struct ListNode*	newElement = malloc(sizeof(struct ListNode));
-	
+
 	if (newElement == NULL)
 	{
 		puts("Malloc failed");
@@ -79,22 +65,20 @@ void	add(struct ListNode** list, int val)
 	newElement->next = NULL;
 
 	if (*list == NULL)
-	{
 		*list = newElement;
-		return ;
-	}
 	else
 	{
 		struct ListNode*	temp = *list;
 		while (temp->next)
 			temp = temp->next;
 		temp->next = newElement;
-		return ;
 	}
 }
 
 void	printList(struct ListNode*	list)
 {
+	if (!list)
+		return ;
 	struct ListNode*	temp = list;
 	while (temp)
 	{
@@ -103,12 +87,27 @@ void	printList(struct ListNode*	list)
 	}
 }
 
+void	deleteList(struct ListNode* list)
+{
+	if (list)
+	{
+		struct ListNode*	temp = NULL;
+		while (list)
+		{
+			temp = list;
+			list = list->next;
+			free(temp);
+			temp = NULL;
+		}
+	}
+}
+
 int	main(void)
 {
 	struct ListNode*	list1 = NULL;
 	struct ListNode*	list2 = NULL;
 	struct ListNode*	list3 = NULL;
-	
+
 	add(&list1, 9);
 	add(&list1, 9);
 	add(&list1, 9);
@@ -131,5 +130,9 @@ int	main(void)
 	list3 = addTwoNumbers(list1, list2);
 	puts("\nList3");
 	printList(list3);
+
+ 	deleteList(list1);
+ 	deleteList(list2);
+	deleteList(list3);
 	return (0);
 }
