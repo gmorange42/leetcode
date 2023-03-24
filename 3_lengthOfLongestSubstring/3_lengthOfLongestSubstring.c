@@ -3,30 +3,39 @@
 #include <stdbool.h>
 #include <string.h>
 
+typedef struct data
+{
+	bool	save[128];
+	int	index[128];
+}	data;
+
 int	lengthOfLongestSubstring(char* s)
 {
 	int	length = 0;
 	int	max = 0;
-	bool	save[256];
+	bool	save[128];
+	data	ssd;
 
-	bzero(&save, 256);
+
+	bzero(&ssd.save, 128);
+	bzero(&ssd.index, sizeof(int) * 128);
 
 	for (int i = 0; s[i]; ++i)
 	{
-		if (!save[s[i]])
+		if (!ssd.save[s[i]])
 		{
-			save[s[i]] = true;
+			ssd.save[s[i]] = true;
+			ssd.index[s[i]] = i;
 			++length;
-			printf("In %c %d %d\n", s[i], length, max);
 		}
 		else
 		{
 			if (max < length)
 				max = length;
 			length = 0;
-			bzero(&save, 256);
-			printf("Else %c %d %d\n", s[i], length, max);
-			--i;
+			i = ssd.index[s[i]];
+			bzero(&ssd.save, 128);
+			bzero(&ssd.index, sizeof(int) * 128);
 		}
 	}
 
