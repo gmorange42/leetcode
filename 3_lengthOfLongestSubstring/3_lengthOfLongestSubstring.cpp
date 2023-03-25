@@ -5,18 +5,18 @@
 class	Solution
 {
 	public:
-		int	lengthOfLongestSubstring(char* s)
+		int	lengthOfLongestSubstring(std::string s)
 		{
 			int	length = 0;
 			int	max = 0;
-			std::unordered_map<char, int>	save;
+			std::unordered_map<char, std::string::iterator>	save;
 			save.reserve(128);
 
-			for (int i = 0; s[i]; ++i)
+			for (std::string::iterator it = s.begin(); it != s.end(); ++it)
 			{
-				if (save.count(s[i]) == 0)
+				if (save.count(*it) == 0)
 				{
-					std::pair<char, int>	temp (s[i], i);
+					std::pair<char, std::string::iterator>	temp (*it, it);
 					save.insert(temp);
 					++length;
 				}
@@ -25,7 +25,7 @@ class	Solution
 					if (max < length)
 						max = length;
 					length = 0;
-					i = save[s[i]];
+					it = save[*it];
 					save.clear();
 				}
 			}
