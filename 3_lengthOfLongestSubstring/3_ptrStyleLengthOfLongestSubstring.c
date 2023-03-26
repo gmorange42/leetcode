@@ -3,41 +3,32 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct data
-{
-	bool	save[128];
-	int	index[128];
-}	data;
-
 int	lengthOfLongestSubstring(char* s)
 {
 	int	length = 0;
 	int	max = 0;
 	bool	save[128];
-	data	ssd;
+	void*	index[128];
 
+	bzero(&save, 128);
+	bzero(&index, 128);
 
-	bzero(&ssd.save, 128);
-	bzero(&ssd.index, sizeof(int) * 128);
-
-	for (int i = 0; s[i]; ++i)
+	for (char* ptr = s; *ptr; ptr += sizeof(char))
 	{
-		if (!ssd.save[s[i]])
+		if (!save[*ptr])
 		{
-			puts("In");
-			ssd.save[s[i]] = true;
-			ssd.index[s[i]] = i;
+			save[*ptr] = true;
+			index[*ptr] = ptr;
 			++length;
 		}
 		else
 		{
-			puts("Else");
 			if (max < length)
 				max = length;
 			length = 0;
-			i = ssd.index[s[i]];
-			bzero(&ssd.save, 128);
-			bzero(&ssd.index, sizeof(int) * 128);
+			ptr = index[*ptr];
+			bzero(&save, 128);
+			bzero(&index, sizeof(int) * 128);
 		}
 	}
 
