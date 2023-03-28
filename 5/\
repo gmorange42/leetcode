@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char*	longestPalindrome(char* s)
+{
+	char*	ret;
+	int	j;
+
+
+	ret = calloc(strlen(s) + 1, strlen(s));
+
+	if (!ret)
+		return(s);
+
+	for (int i = 0; s[i + 1]; ++i)
+	{
+		if (s[i - 1] == s[i + 1])
+		{
+			j = 1;
+			printf("%c\n", s[i + j]);
+			printf("%c\n", s[i - j]);
+			puts("here");
+			while (j < i && s[i + j] && s[i - j] == s[i + j])
+			{
+			puts("here");
+				++j;
+			}
+			puts("After while");
+			if (!ret || j > strlen(ret))
+			{
+				bzero(&ret, strlen(s));
+				puts("If");
+				printf("%c", s[i - j]);
+				strncpy(ret, &s[i - j], j);
+				ret[j + 1] = 0;
+			}
+			else
+		}
+	}
+
+	if (ret)
+		return(ret);
+
+	return(s);
+}
+
+int	main(int ac, char** av)
+{
+	if (ac < 2)
+		return (1);
+
+	printf("The longest palindrome in \"%s\" is \"%s\"", av[1], longestPalindrome(av[1]));
+
+	return(0);
+}
