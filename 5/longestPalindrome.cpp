@@ -18,23 +18,31 @@ class Solution
 			{
 				if (*it != *(it + 1) && *(it - 1) != *(it + 1))
 					continue;
+
 				if (*(it - 1) == *(it + 1))
 				{
 					begin = it - 1;
 					end = it + 1;
+					while (begin != s.begin() && end != s.end() && *(begin - 1) == *(end + 1))
+					{
+						--begin;
+						++end;
+					}
+					if (ret.size() <= static_cast<size_t>(end - begin))
+						ret.assign(begin, end + 1);
 				}
-				else if (*it == *(it + 1))
+				if (*it == *(it + 1))
 				{
 					begin = it;
 					end = it + 1;;
+					while (begin != s.begin() && end != s.end() && *(begin - 1) == *(end + 1))
+					{
+						--begin;
+						++end;
+					}
+					if (ret.size() <= static_cast<size_t>(end - begin))
+						ret.assign(begin, end + 1);
 				}
-				while (begin != s.begin() && end != s.end() && *(begin - 1) == *(end + 1))
-				{
-					--begin;
-					++end;
-				}
-				if (ret.size() <= static_cast<size_t>(end - begin))
-					ret.assign(begin, end + 1);
 			}
 			return (ret);
 		}
