@@ -18,32 +18,31 @@ char*	longestPalindrome(char* s)
 	if (!ret)
 		return(s);
 
+	ret[0] = s[0];
+	ret[1] = 0;
+
 	for (int i = 0; s[i + 1]; ++i)
-	{
-		if ((s[i - 1] == s[i + 1]) || s[i] == s[i +1])
-		{
-			begin = 1;
-			end = 1;
-			size = 1;
-			if (s[i] == s[i + 1])
+{	
+			if ((i != 0 && s[i - 1] == s[i + 1]) || s[i] == s[i + 1])
 			{
-				--begin;
-				++end;
-				++size;
+				begin = i;
+				end = i;
+				while (s[begin] == s[end + 1])
+					++end;
+				while (begin > 0 && s[end + 1] && s[begin - 1] == s[end + 1])
+				{
+					--begin;
+					++end;
+				}
+				size = end - begin + 1;
+				if (size > max)
+				{
+					strncpy(ret, &s[begin], size);
+ 
+					ret[size] = 0;
+					max = size;
+				}
 			}
-			while (begin < i && s[i + end + 1] && s[i - begin] == s[i + end])
-			{
-				++begin;
-				++end;
-				size += 2;
-			}
-			if (size > max)
-			{
-				strncpy(ret, &s[i - begin], size);
-				ret[size] = 0;
-				max = size;
-			}
-		}
 	}
 
 	if (ret)

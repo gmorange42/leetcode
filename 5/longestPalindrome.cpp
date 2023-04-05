@@ -5,44 +5,31 @@ class Solution
 	public:
 		std::string longestPalindrome(std::string s)
 		{
-			std::string	ret;
+			if (s.size() == 0)
+				return(s);
+
+			std::string	ret(s.begin(), s.begin() + 1);
 			std::string::iterator	it;
 			std::string::iterator	begin;
 			std::string::iterator	end;
 
-			if (s.size() == 0)
-				return(s);
-			ret.assign(s.begin(), s.begin() + 1);
-
 			for (it = s.begin(); it + 1 != s.end(); ++it)
 			{
-				if (*it != *(it + 1) && *(it - 1) != *(it + 1))
+				if (*it != *(it + 1) && (it != s.begin() && (*(it - 1) != *(it + 1))))
 					continue;
 
-				if (*(it - 1) == *(it + 1))
+				begin = it;
+				end = it;
+				
+				while (*begin == *(end + 1))
+					++end;
+				while (begin != s.begin() && end + 1 != s.end() && *(begin - 1) == *(end + 1))
 				{
-					begin = it - 1;
-					end = it + 1;
-					while (begin != s.begin() && end != s.end() && *(begin - 1) == *(end + 1))
-					{
-						--begin;
-						++end;
-					}
-					if (ret.size() <= static_cast<size_t>(end - begin))
-						ret.assign(begin, end + 1);
+					--begin;
+					++end;
 				}
-				if (*it == *(it + 1))
-				{
-					begin = it;
-					end = it + 1;;
-					while (begin != s.begin() && end != s.end() && *(begin - 1) == *(end + 1))
-					{
-						--begin;
-						++end;
-					}
-					if (ret.size() <= static_cast<size_t>(end - begin))
-						ret.assign(begin, end + 1);
-				}
+				if (ret.size() <= static_cast<size_t>(end - begin + 1))
+					ret.assign(begin, end + 1);
 			}
 			return (ret);
 		}
