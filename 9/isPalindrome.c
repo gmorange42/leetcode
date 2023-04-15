@@ -3,48 +3,18 @@
 #include <stdlib.h>
 #include <math.h>
 
-int	findDivider(int x)
-{
-	int	ret = 1;
-	x /= 10;
-	
-	while (x > 0)
-	{
-		ret *= 10;
-		x /= 10;
-//		printf("%d %d\n", ret, x);
-	}
-	return (ret);
-}
-
 bool	isPalindrome(int x)
 {
 	if (x < 0)
 		return (false);
-	if (x == 0)
-		return (true);
-
-//	int	length = floor(log10(abs(x))) + 1;
-	int	divider = findDivider(x);
-//	int	first = x / divider;
-//	int	last = x % 10;
-
-	while (divider != 10)
+	int	tmp = x;
+	long int	ret = 0;
+	while (x > 0)
 	{
-		printf("(first %d) (last%d)\n", (x / divider), ( x % 10));
-		if ((x / divider) != (x % 10))
-			return (false);
-		x %= divider;
+		ret = (ret * 10) + (x % 10);
 		x /= 10;
-		divider /= 10;
-		printf("In While %d %d\n", x, divider);
 	}
-//	if (length == 1)
-//		return (true);
-
-
-
-	return (true);
+	return(ret == tmp);
 }
 
 int	main(int ac, char** av)
@@ -53,7 +23,6 @@ int	main(int ac, char** av)
 		return (1);
 	bool	ret = isPalindrome(atoi(av[1]));
 
-	printf("divider of %s is %d\n", av[1], findDivider(atoi(av[1])));
 	if (ret)
 		printf("%s is a palindrome\n", av[1]);
 	else
